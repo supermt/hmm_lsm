@@ -7,21 +7,7 @@ from feature_selection import vectorize_by_compaction_output_level
 from log_class import log_recorder
 from traversal import get_log_and_std_files
 from traversal import get_log_dirs
-
-
-def mkdir_p(mypath):
-    '''Creates a directory. equivalent to using mkdir -p on the command line'''
-
-    from errno import EEXIST
-    from os import makedirs, path
-
-    try:
-        makedirs(mypath)
-    except OSError as exc:  # Python >2.5
-        if exc.errno == EEXIST and path.isdir(mypath):
-            pass
-        else:
-            raise
+from traversal import mkdir_p
 
 
 def load_log_and_qps(log_file, ground_truth_csv):
@@ -53,7 +39,7 @@ if __name__ == '__main__':
         # bucket_df = data_cleaning_by_max_MBPS(bucket_df)
         #
         fig = bucket_df.plot(subplots=True)
-        output_path = "image/%s/" % log_dir.replace("log_files", "").replace("/", "+")
+        output_path = "image/%s/" % log_dir.replace("log_files/", "").replace("/", "_")
         mkdir_p(output_path)
         plt.savefig("{}/compaction_distribution_by_level.pdf".format(output_path), bbox_inches="tight")
         plt.close()

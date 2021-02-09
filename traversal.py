@@ -19,7 +19,19 @@ def recursive_in(prefix_list, line=""):
     else:
         print(prefix_list[0])
         recursive_in(prefix_list[1:], line + prefix_list[0])
+def mkdir_p(mypath):
+    '''Creates a directory. equivalent to using mkdir -p on the command line'''
 
+    from errno import EEXIST
+    from os import makedirs, path
+
+    try:
+        makedirs(mypath)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == EEXIST and path.isdir(mypath):
+            pass
+        else:
+            raise
 
 def get_log_dirs(prefix="."):
     result_dirs = []
