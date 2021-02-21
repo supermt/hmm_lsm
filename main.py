@@ -5,9 +5,8 @@ import matplotlib.pyplot as plt
 
 from feature_selection import vectorize_by_compaction_output_level
 from log_class import log_recorder
-from traversal import get_log_and_std_files
+from traversal import get_log_and_std_files, mkdir_p
 from traversal import get_log_dirs
-from traversal import mkdir_p
 
 
 def load_log_and_qps(log_file, ground_truth_csv):
@@ -29,7 +28,8 @@ if __name__ == '__main__':
     mpl.rcParams['figure.figsize'] = (8, 6)
     mpl.rcParams['axes.grid'] = False
 
-    dirs = get_log_dirs("log_files")
+    log_dir_prefix = "DOTA_embedded/"
+    dirs = get_log_dirs(log_dir_prefix)
     for log_dir in dirs:
         print(log_dir)
         stdout_file, LOG_file, report_csv = get_log_and_std_files(log_dir)
@@ -39,7 +39,23 @@ if __name__ == '__main__':
         # bucket_df = data_cleaning_by_max_MBPS(bucket_df)
         #
         fig = bucket_df.plot(subplots=True)
-        output_path = "image/%s/" % log_dir.replace("log_files/", "").replace("/", "_")
+        output_path = "image/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
         mkdir_p(output_path)
         plt.savefig("{}/compaction_distribution_by_level.pdf".format(output_path), bbox_inches="tight")
         plt.close()
+    # start_time = datetime.now()
+    # from feature_selection import vectorize_by_compaction_output_level
+    # from traversal import get_log_dirs, get_log_and_std_files
+    #
+    # log_prefix_dir = "log_files"
+    # dirs = get_log_dirs(log_prefix_dir)
+    #
+    #
+    # log_dir = dirs[0]
+    # stdout_file, LOG_file, report_csv = get_log_and_std_files(log_dir)
+    #
+    # data_set = load_log_and_qps(LOG_file, report_csv)
+    # bucket_df = vectorize_by_compaction_output_level(data_set)
+    # bucket_df["qps"] = data_set.qps_df["interval_qps"]
+    # end_time = datetime.now()
+    # print(end_time-start_time)

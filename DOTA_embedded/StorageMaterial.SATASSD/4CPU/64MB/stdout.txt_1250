@@ -1,0 +1,136 @@
+Initializing RocksDB Options from the specified file
+Initializing RocksDB Options from command-line flags
+/home/jinghuan/rocksdb_ssd
+Keys:       8 bytes each
+Values:     100 bytes each (50 bytes after compression)
+Entries:    483183820
+Prefix:    0 bytes
+Keys per prefix:    0
+RawSize:    49766.4 MB (estimated)
+FileSize:   26726.4 MB (estimated)
+Write rate: 0 bytes/second
+Read rate: 0 ops/second
+Compression: NoCompression
+Compression sampling rate: 0
+Memtablerep: skip_list
+Perf Level: 1
+------------------------------------------------
+0 point(s) detected
+use internal DOTA frameworks
+Initializing RocksDB Options from the specified file
+Initializing RocksDB Options from command-line flags
+/home/jinghuan/rocksdb_ssd
+DB path: [/home/jinghuan/rocksdb_ssd]
+using new version reporter
+opened report file
+Set write_buffer_size=134217728 suc after 461 seconds running
+Set target_file_size_base=134217728 suc after 461 seconds running
+Set write_buffer_size=134217728 suc after 462 seconds running
+Set target_file_size_base=134217728 suc after 462 seconds running
+Set write_buffer_size=268435456 suc after 465 seconds running
+Set target_file_size_base=268435456 suc after 465 seconds running
+Set write_buffer_size=268435456 suc after 473 seconds running
+Set target_file_size_base=268435456 suc after 473 seconds running
+Set write_buffer_size=536870912 suc after 478 seconds running
+Set target_file_size_base=536870912 suc after 478 seconds running
+Set write_buffer_size=536870912 suc after 485 seconds running
+Set target_file_size_base=536870912 suc after 485 seconds running
+Set write_buffer_size=1073741824 suc after 486 seconds running
+Set target_file_size_base=1073741824 suc after 486 seconds running
+Set write_buffer_size=67108864 suc after 488 seconds running
+Set target_file_size_base=67108864 suc after 488 seconds running
+Set write_buffer_size=67108864 suc after 489 seconds running
+Set target_file_size_base=67108864 suc after 489 seconds running
+Set write_buffer_size=134217728 suc after 513 seconds running
+Set target_file_size_base=134217728 suc after 513 seconds running
+Set write_buffer_size=134217728 suc after 514 seconds running
+Set target_file_size_base=134217728 suc after 514 seconds running
+Set write_buffer_size=268435456 suc after 525 seconds running
+Set target_file_size_base=268435456 suc after 525 seconds running
+Set write_buffer_size=268435456 suc after 532 seconds running
+Set target_file_size_base=268435456 suc after 532 seconds running
+Set write_buffer_size=536870912 suc after 539 seconds running
+Set target_file_size_base=536870912 suc after 539 seconds running
+Set write_buffer_size=536870912 suc after 545 seconds running
+Set target_file_size_base=536870912 suc after 545 seconds running
+Set write_buffer_size=67108864 suc after 548 seconds running
+Set target_file_size_base=67108864 suc after 548 seconds running
+Set write_buffer_size=67108864 suc after 556 seconds running
+Set target_file_size_base=67108864 suc after 556 seconds running
+Set write_buffer_size=134217728 suc after 681 seconds running
+Set target_file_size_base=134217728 suc after 681 seconds running
+Set write_buffer_size=134217728 suc after 682 seconds running
+Set target_file_size_base=134217728 suc after 682 seconds running
+Set write_buffer_size=268435456 suc after 685 seconds running
+Set target_file_size_base=268435456 suc after 685 seconds running
+Set write_buffer_size=268435456 suc after 694 seconds running
+Set target_file_size_base=268435456 suc after 694 seconds running
+Set write_buffer_size=536870912 suc after 696 seconds running
+Set target_file_size_base=536870912 suc after 696 seconds running
+Set write_buffer_size=536870912 suc after 697 seconds running
+Set target_file_size_base=536870912 suc after 697 seconds running
+Set write_buffer_size=1073741824 suc after 698 seconds running
+Set target_file_size_base=1073741824 suc after 698 seconds running
+Set write_buffer_size=67108864 suc after 700 seconds running
+Set target_file_size_base=67108864 suc after 700 seconds running
+Set write_buffer_size=67108864 suc after 701 seconds running
+Set target_file_size_base=67108864 suc after 701 seconds running
+Set write_buffer_size=134217728 suc after 731 seconds running
+Set target_file_size_base=134217728 suc after 731 seconds running
+Set write_buffer_size=134217728 suc after 732 seconds running
+Set target_file_size_base=134217728 suc after 732 seconds running
+Set write_buffer_size=268435456 suc after 744 seconds running
+Set target_file_size_base=268435456 suc after 744 seconds running
+Set write_buffer_size=268435456 suc after 745 seconds running
+Set target_file_size_base=268435456 suc after 745 seconds running
+Set write_buffer_size=536870912 suc after 751 seconds running
+Set target_file_size_base=536870912 suc after 751 seconds running
+Set write_buffer_size=536870912 suc after 758 seconds running
+Set target_file_size_base=536870912 suc after 758 seconds running
+Set write_buffer_size=1073741824 suc after 760 seconds running
+Set target_file_size_base=1073741824 suc after 760 seconds running
+Set write_buffer_size=67108864 suc after 761 seconds running
+Set target_file_size_base=67108864 suc after 761 seconds running
+Set write_buffer_size=67108864 suc after 763 seconds running
+Set target_file_size_base=67108864 suc after 763 seconds running
+Set write_buffer_size=134217728 suc after 954 seconds running
+Set target_file_size_base=134217728 suc after 954 seconds running
+Set write_buffer_size=134217728 suc after 955 seconds running
+Set target_file_size_base=134217728 suc after 955 seconds running
+Set write_buffer_size=268435456 suc after 965 seconds running
+Set target_file_size_base=268435456 suc after 965 seconds running
+Set write_buffer_size=268435456 suc after 968 seconds running
+Set target_file_size_base=268435456 suc after 968 seconds running
+Set write_buffer_size=536870912 suc after 974 seconds running
+Set target_file_size_base=536870912 suc after 974 seconds running
+Set write_buffer_size=536870912 suc after 979 seconds running
+Set target_file_size_base=536870912 suc after 979 seconds running
+Set write_buffer_size=1073741824 suc after 987 seconds running
+Set target_file_size_base=1073741824 suc after 987 seconds running
+Set write_buffer_size=1073741824 suc after 993 seconds running
+Set target_file_size_base=1073741824 suc after 993 seconds running
+Set write_buffer_size=67108864 suc after 1009 seconds running
+Set target_file_size_base=67108864 suc after 1009 seconds running
+Set write_buffer_size=67108864 suc after 1010 seconds running
+Set target_file_size_base=67108864 suc after 1010 seconds running
+Set write_buffer_size=134217728 suc after 1041 seconds running
+Set target_file_size_base=134217728 suc after 1041 seconds running
+Set write_buffer_size=134217728 suc after 1042 seconds running
+Set target_file_size_base=134217728 suc after 1042 seconds running
+Set write_buffer_size=268435456 suc after 1053 seconds running
+Set target_file_size_base=268435456 suc after 1053 seconds running
+Set write_buffer_size=268435456 suc after 1062 seconds running
+Set target_file_size_base=268435456 suc after 1062 seconds running
+Set write_buffer_size=536870912 suc after 1077 seconds running
+Set target_file_size_base=536870912 suc after 1077 seconds running
+Set write_buffer_size=536870912 suc after 1082 seconds running
+Set target_file_size_base=536870912 suc after 1082 seconds running
+Set write_buffer_size=1073741824 suc after 1087 seconds running
+Set target_file_size_base=1073741824 suc after 1087 seconds running
+Set write_buffer_size=1073741824 suc after 1091 seconds running
+Set target_file_size_base=1073741824 suc after 1091 seconds running
+Set write_buffer_size=67108864 suc after 1098 seconds running
+Set target_file_size_base=67108864 suc after 1098 seconds running
+Set write_buffer_size=67108864 suc after 1099 seconds running
+Set target_file_size_base=67108864 suc after 1099 seconds running
+fillrandom   :       9.367 micros/op 106753 ops/sec;   11.0 MB/s

@@ -84,9 +84,10 @@ class log_recorder:
         self.start_time_micros = self.get_start_time(file_lines[0])
         self.log_lines = []
         for line in file_lines:
-            line = re.search('(\{.+\})', line)
-            if line:
-                log_row = json.loads(line[0])
+            line_string = re.search('(\{.+\})', line)
+            if line_string:
+                print(line_string[0])
+                log_row = json.loads(line_string[0])
                 self.log_lines.append(log_row)
         self.pair_the_flush_jobs()
         self.get_the_compaction_jobs()
