@@ -5,6 +5,8 @@ import time
 
 import pandas as pd
 
+from feature_selection import read_report_csv_with_change_points
+
 MS_TO_SEC = 1000000
 
 
@@ -65,11 +67,11 @@ class log_recorder:
             [compaction_start_df, compaction_end_df], axis=1)
         pass
 
-    def record_real_time_qps(self, record_file):
-        self.qps_df = pd.read_csv(record_file)
+    def record_real_time_qps(self, record_file, with_DOTA=False):
+        self.qps_df = read_report_csv_with_change_points(record_file)
         pass
 
-    def __init__(self, log_file, record_file=""):
+    def __init__(self, log_file, record_file="", with_DOTA=False):
 
         self.start_time_micros = 0
         self.log_lines = []
@@ -86,11 +88,9 @@ class log_recorder:
         for line in file_lines:
             line_string = re.search('(\{.+\})', line)
             if line_string:
-                print(line_string[0])
                 log_row = json.loads(line_string[0])
                 self.log_lines.append(log_row)
         self.pair_the_flush_jobs()
         self.get_the_compaction_jobs()
-        print(self.start_time_micros)
         if record_file != "":
-            self.record_real_time_qps(record_file)
+            self.record_real_time_qps(record_file, with_DOTA)

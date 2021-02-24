@@ -3,7 +3,7 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-from feature_selection import vectorize_by_compaction_output_level
+from feature_selection import vectorize_by_compaction_output_level, combine_vector_with_qps
 from log_class import log_recorder
 from traversal import get_log_and_std_files, mkdir_p
 from traversal import get_log_dirs
@@ -28,14 +28,15 @@ if __name__ == '__main__':
     mpl.rcParams['figure.figsize'] = (8, 6)
     mpl.rcParams['axes.grid'] = False
 
-    log_dir_prefix = "DOTA_embedded/"
+    log_dir_prefix = "log_files/"
     dirs = get_log_dirs(log_dir_prefix)
     for log_dir in dirs:
         print(log_dir)
         stdout_file, LOG_file, report_csv = get_log_and_std_files(log_dir)
         data_set = load_log_and_qps(LOG_file, report_csv)
         bucket_df = vectorize_by_compaction_output_level(data_set)
-        bucket_df["qps"] = data_set.qps_df["interval_qps"]
+        bucket_df = combine_vector_with_qps(bucket_df, data_set.qps_df)
+
         # bucket_df = data_cleaning_by_max_MBPS(bucket_df)
         #
         fig = bucket_df.plot(subplots=True)

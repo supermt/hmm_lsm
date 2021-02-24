@@ -2,6 +2,22 @@ import numpy as np
 import pandas as pd
 
 
+def read_report_csv_with_change_points(report_file):
+    file_lines = open(report_file).readlines()
+    result = []
+    for file_line in file_lines[1:]:
+        records = file_line.replace("\n", "").split(",")
+        if (len(records) > 2):
+            normed = int(records[3]) / (64 * 1024 * 1024)
+            records = records[0:2]
+            records.append(normed)
+        else:
+            records.append(1)
+        result.append(records)
+    result = np.array(result).astype(float)
+    return pd.DataFrame(result, columns=["secs_elapsed", "interval_qps", "change_points"])
+
+
 def action_list_feature_vectorize(log_and_qps, time_slice):
     ms_to_second = 1000000
     # max_file_level = 7
@@ -115,3 +131,14 @@ def vectorize_by_compaction_output_level(log_and_qps, time_slice=1000000):
                 # print(level)
     # compute the mean of the lsm state
     return pd.DataFrame(bucket, columns=feature_columns)
+
+
+def combine_vector_with_qps(bucket_df, qps_df):
+    # since qps_df starts from sec 1, add the first line, [0,0,0]
+    id_df = pd.DataFrame(list(range(bucket_df.shape[0])), columns=["secs_elapsed"])
+    id_df = id_df.merge(qps_df,how="left",on="secs_elapsed")
+    id_df['interval_qps'] = id_df['interval_qps'].fillna(0)
+    id_df['change_points'] = id_df['change_points'].fillna(1)
+    id_df = id_df[["interval_qps","change_points"]]
+    result_bf = pd.concat([bucket_df,id_df],axis=1)
+    return result_bf
