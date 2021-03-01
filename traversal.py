@@ -19,6 +19,8 @@ def recursive_in(prefix_list, line=""):
     else:
         print(prefix_list[0])
         recursive_in(prefix_list[1:], line + prefix_list[0])
+
+
 def mkdir_p(mypath):
     '''Creates a directory. equivalent to using mkdir -p on the command line'''
 
@@ -33,6 +35,7 @@ def mkdir_p(mypath):
         else:
             raise
 
+
 def get_log_dirs(prefix="."):
     result_dirs = []
     for root, dirs, files in os.walk(prefix, topdown=False):
@@ -42,10 +45,11 @@ def get_log_dirs(prefix="."):
     return result_dirs
 
 
-def get_log_and_std_files(prefix="."):
+def get_log_and_std_files(prefix=".", with_stat_csv=False):
     LOG_FILES = []
     stdout_files = []
     qps_files = []
+    stat_csvs = []
     for root, dirs, files in os.walk(prefix, topdown=False):
         for filename in files:
             if "stdout" in filename:
@@ -54,4 +58,9 @@ def get_log_and_std_files(prefix="."):
                 LOG_FILES.append(os.path.join(root, filename))
             if "report.csv" in filename:
                 qps_files.append(os.path.join(root, filename))
-    return stdout_files[0], LOG_FILES[0],qps_files[0]
+            if "stat_result.csv" in filename:
+                stat_csvs.append(os.path.join(root, filename))
+    if with_stat_csv:
+        return stdout_files[0], LOG_FILES[0], qps_files[0], stat_csvs[0]
+    else:
+        return stdout_files[0], LOG_FILES[0], qps_files[0]
