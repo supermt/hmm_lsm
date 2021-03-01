@@ -2,8 +2,10 @@
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import numpy
 
-from feature_selection import vectorize_by_disk_op_distribution, combine_vector_with_qps
+from feature_selection import generate_lsm_shape, combine_vector_with_qps
 from log_class import log_recorder
 from traversal import get_log_and_std_files, mkdir_p
 from traversal import get_log_dirs
@@ -24,6 +26,14 @@ def data_cleaning_by_max_MBPS(bucket_df, MAX_READ=2000, MAX_WRITE=1500):
     return bucket_df
 
 
+def plot_lsm(lsm_shape, plot_level=5):
+    fig, axes = plt.subplots(plot_level + 1, 1)
+    for i in range(plot_level):
+        axes[i].plot(lsm_shape["time_micro"], lsm_shape["level" + str(i)], c=numpy.random.rand(3, ))
+        axes[i].set_ylabel("level" + str(i))
+    return fig, axes
+
+
 if __name__ == '__main__':
     mpl.rcParams['figure.figsize'] = (8, 6)
     mpl.rcParams['axes.grid'] = False
@@ -34,14 +44,13 @@ if __name__ == '__main__':
         print(log_dir)
         stdout_file, LOG_file, report_csv = get_log_and_std_files(log_dir)
         data_set = load_log_and_qps(LOG_file, report_csv)
-        bucket_df = vectorize_by_disk_op_distribution(data_set)
-        bucket_df = combine_vector_with_qps(bucket_df, data_set.qps_df)
-        print(bucket_df.describe())
-        # bucket_df = data_cleaning_by_max_MBPS(bucket_df)
-        #
-        fig = bucket_df.plot(subplots=True)
-        output_path = "disk_usage_ratio/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
+        lsm_shape = generate_lsm_shape(data_set)
+        fig, axes = plot_lsm(lsm_shape)
+        axes[-1].plot(data_set.qps_df["secs_elapsed"], data_set.qps_df["interval_qps"])
+        axes[-1].set_ylabel("interval_qps")
+        output_path = "lsm_shpae/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
         mkdir_p(output_path)
+        plt.tight_layout()
         plt.savefig("{}/disk_usage.pdf".format(output_path), bbox_inches="tight")
         plt.savefig("{}/disk_usage.png".format(output_path), bbox_inches="tight")
         plt.close()

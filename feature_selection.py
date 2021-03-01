@@ -201,6 +201,30 @@ def vectorize_by_disk_op_distribution(log_and_qps, time_slice=1000000):
     return pd.DataFrame(bucket, columns=feature_columns)
 
 
+def generate_lsm_shape(log_and_qps, level=7, time_slice=1000000):
+    # result = None
+    columns = ["job_id", "op_type", "time_micro"]  # job_id, op, []
+    for i in range(level):
+        columns.append("level" + str(i))
+    result = []
+    for index, compaction_job in log_and_qps.compaction_df.iterrows():
+        # print(compaction_job)
+        moment_lsm_shape = [compaction_job["job"], "compaction", float(compaction_job["end_time"]) / time_slice]
+        for count in compaction_job["lsm_state"][0:level]:
+            moment_lsm_shape.append(count)
+        result.append(moment_lsm_shape)
+    # for index, flush_job in log_and_qps.flush_df.iterrows():
+    #     # print(compaction_job)
+    #     moment_lsm_shape = [flush_job["job"], "flush", flush_job["end_time"]]
+    #     for count in flush_job["lsm_state"][0:level]:
+    #         moment_lsm_shape.append(count)
+    #     result.append(moment_lsm_shape)
+    result = pd.DataFrame(result, columns=columns)
+    result = result.sort_values(by=['time_micro'])
+    result = result.reset_index(drop=True)
+    return result
+
+
 def combine_vector_with_qps(bucket_df, qps_df):
     # since qps_df starts from sec 1, add the first line, [0,0,0]
     id_df = pd.DataFrame(list(range(bucket_df.shape[0])), columns=["secs_elapsed"])
