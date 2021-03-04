@@ -95,9 +95,9 @@ def action_list_feature_vectorize(log_and_qps, time_slice):
     return pd.DataFrame(bucket, columns=feature_columns)
 
 
-def vectorize_by_compaction_output_level(log_and_qps, time_slice=1000000):
+def vectorize_by_compaction_output_level(log_and_qps, target_depth=4, time_slice=1000000):
     ms_to_second = 1000000
-    max_file_level = 4
+    max_file_level = target_depth
     feature_columns = ["flushes", "l0compactions",
                        "other_compactions", "read", "write"]
     file_counter_list = ["level" + str(x) for x in range(max_file_level)]
