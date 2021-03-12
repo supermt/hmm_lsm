@@ -37,6 +37,41 @@ def read_report_csv_with_change_points(report_file):
     return pd.DataFrame(result, columns=["secs_elapsed", "interval_qps", "change_points"])
 
 
+def vector_compaction_df(compaction_df, time_slice, bucket, file_counter_list, io_time_only):
+    for index, compaction_job in compaction_df.iterrows():
+        if io_time_only:
+            compaction_read_speed = round(compaction_job["input_data_size"] / (
+                compaction_job["compaction_time_micros"]), 2)  # bytes/ms , equals to MB/sec
+            compaction_write_speed = round(compaction_job["total_output_size"] / (
+                compaction_job["compaction_time_micros"]), 2)  # bytes/ms , equals to MB/sec
+        else:
+            compaction_read_speed = round(compaction_job["input_data_size"] / (
+                    compaction_job["compaction_time_micros"] - compaction_job["compaction_time_cpu_micros"]),
+                                          2)  # bytes/ms , equals to MB/sec
+            compaction_write_speed = round(compaction_job["total_output_size"] / (
+                    compaction_job["compaction_time_micros"] - compaction_job["compaction_time_cpu_micros"]),
+                                           2)  # bytes/ms , equals to MB/sec
+        start_index = int(compaction_job["start_time"] / time_slice)
+        end_index = int(compaction_job["end_time"] / time_slice) + 1
+
+        # the tail part is not accurant
+        if start_index >= len(bucket) - 10 or end_index >= len(bucket) - 5:
+            break
+        for element in bucket[start_index:end_index]:
+            element[0] += 0
+            if compaction_job["compaction_reason"] == "LevelL0FilesNum":
+                element[1] += 1
+            else:
+                element[2] += 1
+            element[3] += compaction_read_speed
+            element[4] += compaction_write_speed
+            for level in range(len(file_counter_list)):
+                # print(compaction_job["output_level"])
+                if compaction_job["output_level"] == level:
+                    element[5 + level] += 1
+                # print(level)
+
+
 def action_list_feature_vectorize(log_and_qps, time_slice):
     ms_to_second = 1000000
     # max_file_level = 7
@@ -95,7 +130,8 @@ def action_list_feature_vectorize(log_and_qps, time_slice):
     return pd.DataFrame(bucket, columns=feature_columns)
 
 
-def vectorize_by_compaction_output_level(log_and_qps, target_depth=4, time_slice=1000000):
+def vectorize_by_compaction_output_level(log_and_qps, target_depth=4, time_slice=1000000,
+                                         compactio_bandwidth_io_only=False):
     ms_to_second = 1000000
     max_file_level = target_depth
     feature_columns = ["flushes", "l0compactions",
@@ -124,30 +160,8 @@ def vectorize_by_compaction_output_level(log_and_qps, target_depth=4, time_slice
             element[0] += 1
             element[4] += flush_speed
 
-    for index, compaction_job in log_and_qps.compaction_df.iterrows():
-        compaction_read_speed = round(compaction_job["input_data_size"] / (
-            compaction_job["compaction_time_micros"]), 2)  # bytes/ms , equals to MB/sec
-        compaction_write_speed = round(compaction_job["total_output_size"] / (
-            compaction_job["compaction_time_micros"]), 2)  # bytes/ms , equals to MB/sec
-        start_index = int(compaction_job["start_time"] / time_slice)
-        end_index = int(compaction_job["end_time"] / time_slice) + 1
+    vector_compaction_df(log_and_qps.compaction_df, time_slice, bucket, file_counter_list, compactio_bandwidth_io_only)
 
-        # the tail part is not accurant
-        if start_index >= len(bucket) - 10 or end_index >= len(bucket) - 5:
-            break
-        for element in bucket[start_index:end_index]:
-            element[0] += 0
-            if compaction_job["compaction_reason"] == "LevelL0FilesNum":
-                element[1] += 1
-            else:
-                element[2] += 1
-            element[3] += compaction_read_speed
-            element[4] += compaction_write_speed
-            for level in range(len(file_counter_list)):
-                # print(compaction_job["output_level"])
-                if compaction_job["output_level"] == level:
-                    element[5 + level] += 1
-                # print(level)
     # compute the mean of the lsm state
     return pd.DataFrame(bucket, columns=feature_columns)
 

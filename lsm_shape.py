@@ -50,7 +50,7 @@ if __name__ == '__main__':
     mpl.rcParams['figure.figsize'] = (8, 6)
     mpl.rcParams['axes.grid'] = False
 
-    log_dir_prefix = "fillrandom_only_thread/"
+    log_dir_prefix = "fillrandom_pri_L1_Deep_L0/"
     dirs = get_log_dirs(log_dir_prefix)
     for log_dir in dirs:
         print(log_dir)
@@ -66,10 +66,38 @@ if __name__ == '__main__':
         plot_compaction(compaction_df, plot_level, fig, axes)
 
         axes[plot_level, 0].plot(data_set.qps_df["secs_elapsed"], data_set.qps_df["interval_qps"])
-        axes[plot_level, 0].set_ylabel("interval_qps")
-        axes[plot_level, 1].plot(data_set.qps_df["secs_elapsed"], data_set.qps_df["interval_qps"])
+        axes[plot_level, 0].set_ylabel("IOPS")
+        axes[plot_level, 1].plot(compaction_df["write"])
+        axes[plot_level, 1].set_ylabel("MBPS")
 
-        output_path = "fillrandom_only_thread_lsm_shape/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
+        output_path = "thread_pri/L1_Deep_L0/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
+        mkdir_p(output_path)
+        plt.tight_layout()
+        plt.savefig("{}/lsm_shape.pdf".format(output_path), bbox_inches="tight")
+        plt.savefig("{}/lsm_shape.png".format(output_path), bbox_inches="tight")
+        plt.close()
+
+    log_dir_prefix = "fillrandom_only_thread"
+    dirs = get_log_dirs(log_dir_prefix)
+    for log_dir in dirs:
+        print(log_dir)
+        stdout_file, LOG_file, report_csv = get_log_and_std_files(log_dir)
+        data_set = load_log_and_qps(LOG_file, report_csv)
+        lsm_shape = generate_lsm_shape(data_set)
+        plot_level = 5
+        compaction_df = vectorize_by_compaction_output_level(data_set, plot_level)
+
+        fig, axes = plt.subplots(plot_level + 1, 2, sharex='all')
+
+        plot_lsm(lsm_shape, plot_level, fig, axes)
+        plot_compaction(compaction_df, plot_level, fig, axes)
+
+        axes[plot_level, 0].plot(data_set.qps_df["secs_elapsed"], data_set.qps_df["interval_qps"])
+        axes[plot_level, 0].set_ylabel("IOPS")
+        axes[plot_level, 1].plot(compaction_df["write"])
+        axes[plot_level, 1].set_ylabel("MBPS")
+
+        output_path = "thread_pri/origin/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
         mkdir_p(output_path)
         plt.tight_layout()
         plt.savefig("{}/lsm_shape.pdf".format(output_path), bbox_inches="tight")

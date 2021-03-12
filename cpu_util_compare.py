@@ -67,9 +67,12 @@ def plot_stat(dirs, log_prefix, output_prefix, fig_name, condition=""):
 
 
 if __name__ == '__main__':
-    log_dir_prefix = "log_files/"
+    log_dir_prefix = "fillrandom_only_thread/"
     plot_features = ["interval_qps", "change_points"]
-    plot_stat(get_log_dirs(log_dir_prefix), log_dir_prefix, "CPU_compare", "QPS_origin", "12CPU")
-    log_dir_prefix = "DOTA_embedded/"
-    plot_stat(get_log_dirs(log_dir_prefix), log_dir_prefix, "CPU_compare", "QPS_change_point",
-              "12CPU")
+    plot_stat(get_log_dirs(log_dir_prefix), log_dir_prefix, "thread_pri/ori", "Disk_util", "12CPU")
+    log_dir_prefix = "fillrandom_pri_L1_Deep_L0/"
+    plot_features = ["interval_qps", "change_points"]
+    plot_stat(get_log_dirs(log_dir_prefix), log_dir_prefix, "thread_pri/new", "Disk_util", "12CPU")
+    # log_dir_prefix = "DOTA_embedded/"
+    # plot_stat(get_log_dirs(log_dir_prefix), log_dir_prefix, "CPU_compare", "QPS_change_point",
+    #           "12CPU")

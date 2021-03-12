@@ -28,7 +28,7 @@ if __name__ == '__main__':
     mpl.rcParams['figure.figsize'] = (8, 6)
     mpl.rcParams['axes.grid'] = False
 
-    log_dir_prefix = "log_files/"
+    log_dir_prefix = "fillrandom_pri_L1_Deep_L0/"
     dirs = get_log_dirs(log_dir_prefix)
     for log_dir in dirs:
         print(log_dir)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
         # bucket_df = data_cleaning_by_max_MBPS(bucket_df)
         #
         fig = bucket_df.plot(subplots=True)
-        output_path = "disk_usage_ratio/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
+        output_path = "thread_pri/L1_Deep_L0/%s/" % log_dir.replace(log_dir_prefix, "").replace("/", "_")
         mkdir_p(output_path)
         plt.savefig("{}/disk_usage.pdf".format(output_path), bbox_inches="tight")
         plt.savefig("{}/disk_usage.png".format(output_path), bbox_inches="tight")
