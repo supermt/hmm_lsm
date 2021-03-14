@@ -27,7 +27,7 @@ def get_file_info(file_name):
 
 
 if __name__ == "__main__":
-    work_path = "../"
+    work_path = "./"
     if len(sys.argv) >= 2:
         work_path = sys.argv[-1]
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
             file_num_list = line.split(" ")[-file_nums:-1]
 
             for file_num in file_num_list:
-                file_names.append(num_to_file(file_num))
+                file_names.append(file_num)
 
             files[level] = file_names
             level += 1
@@ -53,12 +53,12 @@ if __name__ == "__main__":
     file_info_list = []
 
     for level in files:
-        for file in files[level]:
-            size, extents = get_file_info(file)
+        for file_num in files[level]:
+            size, extents = get_file_info(num_to_file(file_num))
             if size:
-                file_info = [level, file, size, extents]
+                file_info = [level, file_num, size, extents]
                 file_info_list.append(file_info)
 
     df = pd.DataFrame(file_info_list, columns=[
-                      "level", "file_name", "size_byte", "extents"])
+                      "level", "file_num", "size_byte", "extents"])
     df.to_csv("extents_file.csv", index=False)
