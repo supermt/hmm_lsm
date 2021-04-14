@@ -7,10 +7,10 @@ from tensorflow_probability import distributions as tfd
 
 from matplotlib import pylab as plt
 
-from main import get_log_dirs
-from main import get_log_and_std_files
+from compaction_distribution import get_log_dirs
+from compaction_distribution import get_log_and_std_files
 from feature_selection import vectorize_by_compaction_output_level
-from main import load_log_and_qps
+from compaction_distribution import load_log_and_qps
 from traversal import mkdir_p
 
 from hmm_utils import latent_state_number_changing_curve
