@@ -1,3 +1,7 @@
 venv/**
 image/**
 tmp.csv
+LOG_DIR/**
+**/*.png
+**/*.pdf
+**/__pycache__/
